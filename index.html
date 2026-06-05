@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкета обратной связи — Proceset</title>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #1A56E8;
+  --blue-light: #E8EFFE;
+  --blue-mid: #C5D4FB;
+  --text: #0F1523;
+  --muted: #6B7280;
+  --subtle: #9CA3AF;
+  --border: #E5E7EB;
+  --bg: #F7F8FC;
+  --white: #FFFFFF;
+  --gold: #D4A017;
+  --gold-light: #FDF6E3;
+  --green: #059669;
+  --green-light: #ECFDF5;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Geologica', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 40px 16px 80px;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.hero {
+  background: var(--blue);
+  border-radius: 20px;
+  padding: 40px 44px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 30px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 30px;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  position: relative;
+}
+.hero h1 em {
+  font-style: italic;
+  opacity: 0.85;
+}
+.hero p {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.65;
+  max-width: 480px;
+  position: relative;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 100px;
+  padding: 5px 12px 5px 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  position: relative;
+}
+.hero-badge svg { width: 14px; height: 14px; }
+
+/* Top fields */
+.top-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+@media(max-width:540px){ .top-fields{ grid-template-columns:1fr; } }
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field-group label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.field-group input {
+  font-family: 'Geologica', sans-serif;
+  font-size: 13.5px;
+  padding: 9px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--text);
+  transition: border-color 0.15s;
+  outline: none;
+}
+.field-group input:focus { border-color: var(--blue); }
+
+/* Section card */
+.section-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: #FAFBFF;
+}
+.section-num {
+  width: 28px; height: 28px;
+  background: var(--blue);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.section-title-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.section-hint {
+  font-size: 11px;
+  color: var(--subtle);
+  margin-left: auto;
+  white-space: nowrap;
+}
+@media(max-width:480px){ .section-hint { display:none; } }
+
+/* Rating items */
+.rating-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid #F3F4F6;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.rating-item:last-child { border-bottom: none; }
+.item-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  min-width: 26px;
+  padding-top: 3px;
+  letter-spacing: 0.03em;
+}
+.item-body { flex: 1; }
+.item-text {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.stars-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.star-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  font-size: 22px;
+  line-height: 1;
+  color: #D1D5DB;
+  transition: color 0.1s, transform 0.1s;
+}
+.star-btn:hover { transform: scale(1.15); }
+.star-btn.active { color: #F59E0B; }
+.star-label {
+  font-size: 11px;
+  color: var(--subtle);
+  margin-left: 8px;
+}
+.comment-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-family: 'Geologica', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  margin-left: 10px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.comment-toggle:hover { background: var(--bg); border-color: var(--blue); color: var(--blue); }
+.comment-box {
+  display: none;
+  margin-top: 8px;
+}
+.comment-box textarea {
+  width: 100%;
+  font-family: 'Geologica', sans-serif;
+  font-size: 12.5px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  min-height: 56px;
+  outline: none;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+.comment-box textarea:focus { border-color: var(--blue); background: var(--white); }
+
+/* Open questions */
+.open-section { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+.open-q label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+.open-q label span { color: var(--blue); font-weight: 600; }
+.open-q textarea {
+  width: 100%;
+  font-family: 'Geologica', sans-serif;
+  font-size: 13px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  line-height: 1.6;
+  transition: border-color 0.15s;
+}
+.open-q textarea:focus { border-color: var(--blue); background: var(--white); }
+
+/* Radio */
+.radio-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.radio-chip {
+  display: flex;
+  align-items: center;
+}
+.radio-chip input { display: none; }
+.radio-chip label {
+  font-size: 13px;
+  font-weight: 400;
+  padding: 7px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+  user-select: none;
+  margin-bottom: 0;
+}
+.radio-chip input:checked + label {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  font-weight: 500;
+}
+.radio-chip label:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Optional footer */
+.optional-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.optional-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FAFBFF;
+}
+.optional-head span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.optional-badge {
+  font-size: 10px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 2px 8px;
+  color: var(--subtle);
+  letter-spacing: 0.04em;
+}
+.optional-body {
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media(max-width:480px){ .optional-body{ grid-template-columns:1fr; } }
+
+/* Submit */
+.submit-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.submit-note {
+  font-size: 12px;
+  color: var(--subtle);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 180px;
+}
+.submit-btn {
+  font-family: 'Geologica', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 13px 32px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.submit-btn:hover { background: #1344C4; transform: translateY(-1px); }
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { background: #9CA3AF; cursor: not-allowed; transform: none; }
+.submit-btn svg { width: 16px; height: 16px; }
+
+.status-msg {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 10px;
+  text-align: right;
+}
+.status-msg.err { color: #DC2626; }
+
+/* Success */
+#success-screen {
+  display: none;
+  text-align: center;
+  padding: 80px 20px;
+}
+.success-icon-wrap {
+  width: 72px; height: 72px;
+  background: var(--green-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+.success-icon-wrap svg { width: 36px; height: 36px; color: var(--green); }
+#success-screen h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+#success-screen p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.success-detail {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--green-light);
+  border: 1px solid #A7F3D0;
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-card, .optional-card { animation: fadeUp 0.35s ease both; }
+.section-card:nth-child(1){ animation-delay:0.05s }
+.section-card:nth-child(2){ animation-delay:0.1s }
+.section-card:nth-child(3){ animation-delay:0.15s }
+.section-card:nth-child(4){ animation-delay:0.2s }
+.section-card:nth-child(5){ animation-delay:0.25s }
+</style>
+</head>
+<body>
+
+<div class="page" id="form-screen">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label">Infomaximum · Proceset</div>
+    <h1>Анкета обратной связи<br>по проекту <em>внедрения</em></h1>
+    <p>Менеджер внедрения: <strong style="color:#fff">Ангелина Шелухина</strong>. Ваши ответы помогут улучшить качество работы и сервис для будущих клиентов. Анкета анонимна — имя указывать не обязательно.</p>
+    <div class="hero-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      5–7 минут
+    </div>
+  </div>
+
+  <!-- Project fields -->
+  <div class="top-fields">
+    <div class="field-group">
+      <label>Проект</label>
+      <input type="text" id="f-project" placeholder="Наименование проекта">
+    </div>
+    <div class="field-group">
+      <label>Контактное лицо</label>
+      <input type="text" id="f-contact" placeholder="Имя / должность (необязательно)">
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-num">1</div>
+      <div class="section-title-text">Знание продукта и технологий</div>
+      <div class="section-hint">1 — не согласен · 5 — согласен</div>
+    </div>
+    <div id="sec1"></div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-num">2</div>
+      <div class="section-title-text">Организация проекта</div>
+      <div class="section-hint">1 — не согласен · 5 — согласен</div>
+    </div>
+    <div id="sec2"></div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-num">3</div>
+      <div class="section-title-text">Качество коммуникации</div>
+      <div class="section-hint">1 — не согласен · 5 — согласен</div>
+    </div>
+    <div id="sec3"></div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-num">4</div>
+      <div class="section-title-text">Личные качества специалиста</div>
+      <div class="section-hint">1 — не проявлялось · 5 — в полной мере</div>
+    </div>
+    <div id="sec4"></div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-card">
+    <div class="section-head">
+      <div class="section-num">5</div>
+      <div class="section-title-text">Открытые вопросы</div>
+    </div>
+    <div class="open-section">
+      <div class="open-q">
+        <label><span>5.1</span> — Что менеджер делает особенно хорошо?</label>
+        <textarea id="q51" placeholder="Свободный ответ..."></textarea>
+      </div>
+      <div class="open-q">
+        <label><span>5.2</span> — Что можно улучшить в работе менеджера или в процессе взаимодействия?</label>
+        <textarea id="q52" placeholder="Свободный ответ..."></textarea>
+      </div>
+      <div class="open-q">
+        <label><span>5.3</span> — Был ли случай, когда менеджер проявил себя особенно профессионально? Опишите кратко.</label>
+        <textarea id="q53" placeholder="Свободный ответ..."></textarea>
+      </div>
+      <div class="open-q">
+        <label><span>5.4</span> — Рекомендовали бы вы нашего менеджера другим коллегам или партнёрам?</label>
+        <div class="radio-row">
+          <div class="radio-chip"><input type="radio" name="rec" id="rec1" value="Да"><label for="rec1">Да</label></div>
+          <div class="radio-chip"><input type="radio" name="rec" id="rec2" value="Скорее да"><label for="rec2">Скорее да</label></div>
+          <div class="radio-chip"><input type="radio" name="rec" id="rec3" value="Скорее нет"><label for="rec3">Скорее нет</label></div>
+          <div class="radio-chip"><input type="radio" name="rec" id="rec4" value="Нет"><label for="rec4">Нет</label></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional -->
+  <div class="optional-card">
+    <div class="optional-head">
+      <span>Ваши данные</span>
+      <div class="optional-badge">НЕОБЯЗАТЕЛЬНО</div>
+    </div>
+    <div class="optional-body">
+      <div class="field-group">
+        <label>Имя / должность</label>
+        <input type="text" id="f-who" placeholder="Иванов Иван, директор">
+      </div>
+      <div class="field-group">
+        <label>Название организации</label>
+        <input type="text" id="f-org" placeholder="ООО «Компания»">
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <div class="submit-note">
+      Нажимая кнопку, вы соглашаетесь на обработку ответов в целях улучшения качества сервиса.
+    </div>
+    <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+      Отправить анкету
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="status-msg" id="status-msg"></div>
+
+</div>
+
+<!-- Success -->
+<div id="success-screen">
+  <div class="success-icon-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <h2>Спасибо за отзыв!</h2>
+  <p>Ваши ответы сохранены в таблицу и отправлены Ангелине. Это помогает становиться лучше.</p>
+  <div class="success-detail">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><polyline points="20 6 9 17 4 12"/></svg>
+    Данные успешно переданы
+  </div>
+  <p style="margin-top:32px;font-size:12px;color:#9CA3AF">Ангелина Шелухина, менеджер внедрений · Infomaximum</p>
+</div>
+
+<script>
+const WEBHOOK = "https://script.google.com/macros/s/AKfycbzBDZgizackVECQILdzDjXvHgZ_wsIspO6t4NazTkoN_k_QlAquBJrfMQIoK10dgAWkDg/exec";
+
+const SECTIONS = {
+  sec1: [
+    ["1.1", "Менеджер продемонстрировал глубокое знание платформы Proceset и мог ответить на технические вопросы"],
+    ["1.2", "Менеджер подобрал конфигурацию системы, соответствующую потребностям нашей организации"],
+    ["1.3", "Мне были представлены и разъяснены аналитические отчёты / дашборды в системе"],
+    ["1.4", "Менеджер понятно объяснил смысл ключевых метрик и показателей в наших отчётах"],
+    ["1.5", "Менеджер приводил примеры из других проектов, которые помогали лучше понять возможности системы"]
+  ],
+  sec2: [
+    ["2.1", "Проект был организован чётко: план работ понятен, сроки соблюдались"],
+    ["2.2", "Менеджер заблаговременно предупреждал о возможных рисках и предлагал пути их решения"],
+    ["2.3", "Документация (технические задания, протоколы, отчёты) подготовлена своевременно и в понятном формате"],
+    ["2.4", "Финальные результаты проекта были представлены ясно и профессионально"],
+    ["2.5", "Менеджер эффективно взаимодействовал с разными подразделениями нашей организации"]
+  ],
+  sec3: [
+    ["3.1", "Деловая переписка велась профессионально: письма чёткие, понятные, без лишней информации"],
+    ["3.2", "На встречах и звонках менеджер ясно излагал суть вопросов и умел слышать нашу сторону"],
+    ["3.3", "Если возникали разногласия — менеджер решал их корректно и конструктивно"],
+    ["3.4", "Презентации и выступления менеджера были профессиональными и работали с аудиторией"],
+    ["3.5", "Менеджер проявлял инициативу и предлагал решения, не дожидаясь запроса"]
+  ],
+  sec4: [
+    ["4.1", "Внимательность — фиксировал детали, не забывал договорённости"],
+    ["4.2", "Ответственность — выполнял взятые обязательства в срок"],
+    ["4.3", "Самостоятельность — решал задачи без постоянного эскалирования"],
+    ["4.4", "Коммуникативность — легко выстраивал контакт с разными людьми"],
+    ["4.5", "Целеустремлённость — добивался результата даже при препятствиях"],
+    ["4.6", "Умение работать в команде — наши сотрудники комфортно взаимодействовали с ним"]
+  ]
+};
+
+const ratings = {};
+const comments = {};
+
+const LABELS = ["", "Полностью не согласен", "Скорее не согласен", "Нейтрально", "Скорее согласен", "Полностью согласен"];
+
+function buildSections() {
+  Object.entries(SECTIONS).forEach(([secId, items]) => {
+    const cont = document.getElementById(secId);
+    items.forEach(([num, text]) => {
+      const id = `${secId}_${num}`;
+      ratings[id] = 0;
+      comments[id] = '';
+
+      const item = document.createElement('div');
+      item.className = 'rating-item';
+
+      const starsHtml = [1,2,3,4,5].map(n =>
+        `<button class="star-btn" data-id="${id}" data-val="${n}" onclick="setRating('${id}',${n})" title="${LABELS[n]}">★</button>`
+      ).join('');
+
+      item.innerHTML = `
+        <div class="item-num">${num}</div>
+        <div class="item-body">
+          <div class="item-text">${text}</div>
+          <div class="stars-row">
+            ${starsHtml}
+            <span class="star-label" id="lbl_${id}"></span>
+            <button class="comment-toggle" onclick="toggleComment('${id}')">+ комментарий</button>
+          </div>
+          <div class="comment-box" id="cb_${id}">
+            <textarea placeholder="Ваш комментарий..." oninput="comments['${id}']=this.value"></textarea>
+          </div>
+        </div>
+      `;
+      cont.appendChild(item);
+    });
+  });
+}
+
+function setRating(id, val) {
+  ratings[id] = val;
+  document.querySelectorAll(`.star-btn[data-id="${id}"]`).forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+  });
+  const lbl = document.getElementById('lbl_' + id);
+  if (lbl) lbl.textContent = LABELS[val] || '';
+}
+
+function toggleComment(id) {
+  const cb = document.getElementById('cb_' + id);
+  const open = cb.style.display === 'block';
+  cb.style.display = open ? 'none' : 'block';
+  if (!open) cb.querySelector('textarea').focus();
+}
+
+function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  const status = document.getElementById('status-msg');
+
+  const ratingsList = [];
+  const commentsList = [];
+  Object.entries(SECTIONS).forEach(([, items]) => {
+    items.forEach(([num, text]) => {
+      const id = Object.keys(ratings).find(k => k.endsWith('_' + num));
+      ratingsList.push({ label: num + ' ' + text, value: ratings[id] || 0 });
+      if (comments[id]) commentsList.push({ label: num, text: comments[id] });
+    });
+  });
+
+  const rec = document.querySelector('input[name="rec"]:checked');
+
+  const payload = {
+    project: document.getElementById('f-project').value.trim(),
+    contact: document.getElementById('f-contact').value.trim(),
+    ratings: ratingsList,
+    comments: commentsList,
+    q51: document.getElementById('q51').value.trim(),
+    q52: document.getElementById('q52').value.trim(),
+    q53: document.getElementById('q53').value.trim(),
+    rec: rec ? rec.value : '',
+    who: document.getElementById('f-who').value.trim(),
+    org: document.getElementById('f-org').value.trim()
+  };
+
+  btn.disabled = true;
+  status.className = 'status-msg';
+  status.textContent = 'Отправляем...';
+
+  // Отправка через скрытый iframe (обход CORS для Google Apps Script)
+  const iframe = document.createElement('iframe');
+  iframe.name = 'hidden-submit';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = WEBHOOK;
+  form.target = 'hidden-submit';
+  form.style.display = 'none';
+
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'payload';
+  input.value = JSON.stringify(payload);
+  form.appendChild(input);
+  document.body.appendChild(form);
+
+  iframe.onload = function() {
+    document.getElementById('form-screen').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  setTimeout(function() {
+    document.getElementById('form-screen').style.display = 'none';
+    document.getElementById('success-screen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 3000);
+
+  form.submit();
+}
+
+buildSections();
+</script>
+</body>
+</html>
