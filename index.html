@@ -606,7 +606,7 @@ body {
 </div>
 
 <script>
-const WEBHOOK = "https://script.google.com/macros/s/AKfycbxVqM6znCeWFnfS_5YHG0iYxaCMWwH8ROMInZM5U2wXanVB8xdxonpbbfCB7eihLdteSw/exec";
+const WEBHOOK = "https://script.google.com/macros/s/AKfycbzBDZgizackVECQILdzDjXvHgZ_wsIspO6t4NazTkoN_k_QlAquBJrfMQIoK10dgAWkDg/exec";
 
 const SECTIONS = {
   sec1: [
@@ -729,21 +729,20 @@ async function submitForm() {
   status.textContent = 'Отправляем...';
 
   try {
-    // Отправка через fetch с urlencoded — единственный формат, который Apps Script принимает без CORS-ошибок
-    const body = 'payload=' + encodeURIComponent(JSON.stringify(payload));
-    await fetch(WEBHOOK, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: body
-    });
-    // no-cors не даёт читать ответ, но данные доходят если скрипт опубликован корректно
-    document.getElementById('form-screen').style.display = 'none';
-    document.getElementById('success-screen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Отправка через GET-параметр — работает без CORS с Google Apps Script
+    const url = WEBHOOK + '?data=' + encodeURIComponent(JSON.stringify(payload));
+    const res = await fetch(url, { method: 'GET', mode: 'cors' });
+    const result = await res.json();
+    if (result.ok) {
+      document.getElementById('form-screen').style.display = 'none';
+      document.getElementById('success-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      throw new Error(result.error || 'Unknown error');
+    }
   } catch(err) {
     status.className = 'status-msg err';
-    status.textContent = 'Ошибка отправки. Проверьте соединение и попробуйте ещё раз.';
+    status.textContent = 'Ошибка отправки: ' + err.message;
     btn.disabled = false;
   }
 }
