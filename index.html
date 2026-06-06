@@ -704,7 +704,8 @@ function submitForm() {
   Object.entries(SECTIONS).forEach(([, items]) => {
     items.forEach(([num, text]) => {
       const id = Object.keys(ratings).find(k => k.endsWith('_' + num));
-      ratingsList.push({ label: num + ' ' + text, value: ratings[id] || 0 });
+      // Отправляем только номер и значение — без длинного текста вопроса
+      ratingsList.push({ label: num, value: ratings[id] || 0 });
       if (comments[id]) commentsList.push({ label: num, text: comments[id] });
     });
   });
