@@ -729,32 +729,17 @@ function submitForm() {
   status.className = 'status-msg';
   status.textContent = 'Отправляем...';
 
-  // Скрытая форма — браузер не проверяет CORS, работает как ручной тест
-  var iframe = document.createElement('iframe');
-  iframe.name = 'hidden_frame_' + Date.now();
-  iframe.style.cssText = 'display:none;width:0;height:0;border:0';
-  document.body.appendChild(iframe);
-
-  var form = document.createElement('form');
-  form.method = 'GET';
-  form.action = WEBHOOK;
-  form.target = iframe.name;
-  form.style.display = 'none';
-
-  var input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'data';
-  input.value = JSON.stringify(payload);
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-
-  // Показываем успех через 3 секунды
+  // Открываем запрос в новой вкладке — гарантированно обходит CORS и редиректы
+  var url = WEBHOOK + '?data=' + encodeURIComponent(JSON.stringify(payload));
+  var win = window.open(url, '_blank');
+  
+  // Закрываем вкладку через 2 секунды и показываем успех
   setTimeout(function() {
+    try { if (win) win.close(); } catch(e) {}
     document.getElementById('form-screen').style.display = 'none';
     document.getElementById('success-screen').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, 3000);
+  }, 2000);
 }
 
 buildSections();
